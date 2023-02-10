@@ -1,6 +1,6 @@
-import { Card } from "./Card";
+import { Card } from "../../model/Card";
 
-export interface ResGameState{
+export interface ReqOpponentViewData{
     yourTurnFirst:boolean;
 
     dollars: number;

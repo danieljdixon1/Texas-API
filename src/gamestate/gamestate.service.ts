@@ -1,82 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateGameStateDto } from './dto/create-gamestate.dto';
+import { CreateCardDto, CreateGameStateDto } from './dto/create-gamestate.dto';
 import { GameState, GameStateDocument } from './schemas/gamestate.schema';
 
 @Injectable()
 export class GameStateService {
 
-
+    initialState: CreateGameStateDto = {
+      yourTurnFirst: true,
+      dollars: 499,
+      oppoent_dollars: 499,
+      pot_dollars: 0,
+      cards: [] as {} as [CreateCardDto],
+      oppoent_cards: [] as {} as [CreateCardDto],
+      table_cards: [] as {} as [CreateCardDto],
+      oppoent_action: "",
+      deal: false,
+      fold: false,
+      call: false,
+      bet: false,
+    }
 
     constructor(
-        @InjectModel(GameState.name) private readonly catModel: Model<GameStateDocument>,
+        @InjectModel(GameState.name) private readonly gameStateModel: Model<GameStateDocument>,
       ) {}
-    
-      async create(createCatDto: CreateGameStateDto): Promise<GameState> {
-        console.log("a");
-        const createdCat = await this.catModel.create(createCatDto);
-        console.log("b");
-        return createdCat;
+
+      async getOnlyGameState(): Promise<GameState>{
+        return this.gameStateModel.findOne().exec();
       }
-    
-      async findAll(): Promise<GameState[]> {
-        console.log("aa");
-        const result = await this.catModel.find().exec();
+      async setOnlyGameState(newState: GameState): Promise<GameState>{
+        return await this.gameStateModel.findOneAndReplace(newState).exec();
+      }
+      async restart(): Promise<GameState>{
+        console.log("depths")
+        const result = await this.gameStateModel.create(this.initialState); //{test: "bob"}
         console.log(result);
-        console.log("bb");
-        return result;
+        const result2 = await this.getOnlyGameState();
+        console.log(result2);
+        const result3 = await this.getAllGameState();
+        console.log(result3);
+        return result2
       }
-    
-      async findOne(id: string): Promise<GameState> {
-        return this.catModel.findOne({ _id: id }).exec();
+      async getAllGameState(): Promise<GameState[]>{
+        return this.gameStateModel.find().exec();
       }
-    
-      async delete(id: string) {
-        const deletedCat = await this.catModel
-          .findByIdAndRemove({ _id: id })
-          .exec();
-        return deletedCat;
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // async state(): Promise<GameState[]>{
-    //     // const result1 = await this.GameStateModel.create({testField: "testValue QWERTY"});
-    //     // console.log(result1);
-
-    //     const result2 = await this.GameStateModel.find().exec();
-    //     console.log(result2);
-    //     return result2
-    // }
-
-    // async create(createCatDto: CreateCatDto): Promise<GameState> {
-    //     const createdCat = await this.catModel.create(createCatDto);
-    //     return createdCat;
-    // }
-
-    // async findAll(): Promise<Cat[]> {
-    //     return this.catModel.find().exec();
-    // }
-
-    // async findOne(id: string): Promise<Cat> {
-    //     return this.catModel.findOne({ _id: id }).exec();
-    // }
-
-    // async delete(id: string) {
-    //     const deletedCat = await this.catModel
-    //         .findByIdAndRemove({ _id: id })
-    //         .exec();
-    //     return deletedCat;
-    // }
 }

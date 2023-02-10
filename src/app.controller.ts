@@ -1,42 +1,34 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-import { GameStateService } from './gamestate/gameState.service';
-import { ResGameState } from './DTO/res-game-state';
-import { GameState } from './gamestate/schemas/gamestate.schema';
-import { CreateGameStateDto } from './gamestate/dto/create-gamestate.dto';
+import { ResPlayerViewData } from './model/res-player-view-data';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly gameStateService: GameStateService,
-    ) {}
+  constructor(private readonly appService: AppService,) {}
+
   @Get("state")
-  async state(@Res() res): Promise<GameState[]> {
-    const createResult = await this.gameStateService.create({ } as CreateGameStateDto);
-    console.log(createResult);
-    const readResult = await this.gameStateService.findAll()
-    console.log(readResult);
-    return res.status(HttpStatus.OK).json(readResult);
+  async state(@Res() res): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(this.appService.state());
   }
-  
   @Get("deal")
-  async deal(@Res() res): Promise<ResGameState> {
-    return Promise.resolve<ResGameState>({} as ResGameState);
+  async deal(@Res() res): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(this.appService.deal());
   }
-
   @Get("fold")
-  async fold(@Res() res): Promise<ResGameState> {
-    return Promise.resolve<ResGameState>({} as ResGameState);
+  async fold(@Res() res): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(this.appService.fold());
   }
-
   @Get("call")
-  async call(@Res() res): Promise<ResGameState> {
-    return Promise.resolve<ResGameState>({} as ResGameState);
+  async call(@Res() res): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(this.appService.call());
+  }
+  @Post("bet")
+  async bet(@Res() res): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(this.appService.bet());
   }
 
-  @Get("bet")
-  async bet(@Res() res): Promise<ResGameState> {
-    return Promise.resolve<ResGameState>({} as ResGameState);
+  @Post("restart")
+  async restart(@Res() res): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(this.appService.restart());
   }
 }

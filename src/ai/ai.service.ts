@@ -3,18 +3,22 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { AIActionRes } from 'src/DTO/ai-action-res';
+import { AIDecision } from 'src/ai/dto/res-ai-decision';
+import { ReqOpponentViewData } from 'src/ai/dto/req-opponent-view-data';
 
 @Injectable()
 export class AiService {
+    private url: string = "";
+
     constructor(
         private readonly httpService: HttpService,
         private readonly configService: ConfigService
-        ){}
+    ){
+        this.url = this.configService.get<string>("AI_URL");
+    }
 
-    async getAIAction(): Promise<string> {
-        const url = this.configService.get<string>("AI_URL");
-        const resp = await firstValueFrom(this.httpService.get(url));
-        return ({ai_message: resp.data} as AIActionRes).ai_message;
+    async getAIAction(reqData: ReqOpponentViewData): Promise<AIDecision> {
+        const aiResponse: AxiosResponse = await firstValueFrom(this.httpService.post(this.url, reqData));
+        return (aiResponse.data as AIDecision);
     }
 }
