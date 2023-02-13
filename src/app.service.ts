@@ -13,7 +13,8 @@ export class AppService {
     ) {}
 
     async state(): Promise<ResPlayerViewData> {
-      return this.gameStateService.getOnlyGameState();                    //get state
+      const result = await this.gameStateService.getOnlyGameState();
+      return this.viewGeneratorService.getPlayerView(result);   //get state
     }
     async deal(): Promise<ResPlayerViewData> {
       const oldState = await this.gameStateService.getOnlyGameState();    //get state
@@ -33,9 +34,9 @@ export class AppService {
       await this.gameStateService.setOnlyGameState(newState);
       return this.viewGeneratorService.getPlayerView(newState);
     }
-    async bet(): Promise<ResPlayerViewData> {
+    async bet(amount: number): Promise<ResPlayerViewData> {
       const oldState = await this.gameStateService.getOnlyGameState()
-      const newState = this.gameplayPhaseService.bet(oldState);
+      const newState = this.gameplayPhaseService.bet(oldState, amount);
       await this.gameStateService.setOnlyGameState(newState);
       return this.viewGeneratorService.getPlayerView(newState);
     }

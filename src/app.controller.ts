@@ -1,34 +1,38 @@
-import { Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
+import { reqBet } from './model/req-bet';
 import { ResPlayerViewData } from './model/res-player-view-data';
+import { ViewGeneratorService } from './view-generator/view-generator.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService,) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly viewGeneratorService: ViewGeneratorService
+  ) {}
 
   @Get("state")
   async state(@Res() res): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(this.appService.state());
+    return res.status(HttpStatus.OK).json(await this.appService.state());
   }
-  @Get("deal")
+  @Post("deal")
   async deal(@Res() res): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(this.appService.deal());
+    return res.status(HttpStatus.OK).json(await this.appService.deal());
   }
-  @Get("fold")
+  @Post("fold")
   async fold(@Res() res): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(this.appService.fold());
+    return res.status(HttpStatus.OK).json(await this.appService.fold());
   }
-  @Get("call")
+  @Post("call")
   async call(@Res() res): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(this.appService.call());
+    return res.status(HttpStatus.OK).json(await this.appService.call());
   }
   @Post("bet")
-  async bet(@Res() res): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(this.appService.bet());
+  async bet(@Res() res, @Body() req: reqBet): Promise<ResPlayerViewData> {
+    return res.status(HttpStatus.OK).json(await this.appService.bet(req.amount));
   }
-
   @Post("restart")
   async restart(@Res() res): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(this.appService.restart());
+    return res.status(HttpStatus.OK).json(await this.appService.restart());
   }
 }

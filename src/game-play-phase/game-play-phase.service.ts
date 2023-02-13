@@ -3,20 +3,20 @@ import { GameState } from 'src/gamestate/schemas/gamestate.schema';
 
 @Injectable()
 export class GamePlayPhaseService {
-    deal(oldState: GameState): GameState{
-        const newState: GameState = oldState;
-        return newState;
+    deal(state: GameState): GameState{
+        state.oppoent_action="Cards dealt";
+        return state;
     }
-    fold(oldState: GameState): GameState{
-        const newState: GameState = oldState;
-        return newState;
+    fold(state: GameState): GameState{
+        state.oppoent_action="you folded";
+        return state;
     }
-    call(oldState: GameState): GameState{
-        const newState: GameState = oldState;
-        return newState;
+    call(state: GameState): GameState{
+        state.oppoent_action="called";
+        return state;
     }
-    bet(oldState: GameState): GameState{
-        const newState: GameState = oldState;
-        return newState;
+    bet(state: GameState, amount: number): GameState{
+        state.oppoent_action="Bet " + amount + "!";
+        return state;
     }
 }
