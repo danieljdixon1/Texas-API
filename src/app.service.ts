@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { GamePlayPhaseService } from './game-play-phase/game-play-phase.service';
-import { GameStateService } from './gamestate/gameState.service';
-import { ResPlayerViewData } from './model/res-player-view-data';
-import { ViewGeneratorService } from './view-generator/view-generator.service';
+import { GamePlayPhaseService } from './game/game.service';
+import { GameStateService } from './state/gamestate.service';
+import { ResPlayerViewData } from './view/schema/res-player-view-data';
+import { ViewGeneratorService } from './view/view-generator.service';
 
 @Injectable()
 export class AppService {
   constructor(
     private readonly gameStateService: GameStateService,
     private readonly gameplayPhaseService: GamePlayPhaseService,
-    private readonly viewGeneratorService: ViewGeneratorService,
-    ) {}
+    private readonly viewGeneratorService: ViewGeneratorService) {}
 
     async state(): Promise<ResPlayerViewData> {
       const result = await this.gameStateService.getOnlyGameState();
-      return this.viewGeneratorService.getPlayerView(result);   //get state
+      return this.viewGeneratorService.getPlayerView(result);             //get state
     }
     async deal(): Promise<ResPlayerViewData> {
       const oldState = await this.gameStateService.getOnlyGameState();    //get state

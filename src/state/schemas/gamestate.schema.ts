@@ -13,6 +13,9 @@ export class GameState {
   id: number;
 
   @Prop()
+  machinePosition: number;
+
+  @Prop()
   yourTurnFirst:boolean;
 
   @Prop()

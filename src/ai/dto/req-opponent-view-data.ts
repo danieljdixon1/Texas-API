@@ -1,4 +1,4 @@
-import { Card } from "../../model/Card";
+import { Card } from "../../view/schema/Card";
 
 export interface ReqOpponentViewData{
     yourTurnFirst:boolean;

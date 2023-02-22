@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { GameState } from 'src/gamestate/schemas/gamestate.schema';
-import { ResPlayerViewData } from 'src/model/res-player-view-data';
+import { GameState } from 'src/state/schemas/gamestate.schema';
+import { ResPlayerViewData } from 'src/view/schema/res-player-view-data';
 
 @Injectable()
 export class ViewGeneratorService {

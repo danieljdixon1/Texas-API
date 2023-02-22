@@ -8,13 +8,14 @@ import { GameState, GameStateDocument } from './schemas/gamestate.schema';
 export class GameStateService {
 
     initialState: CreateGameStateDto = {
+      machinePosition: 0,
       yourTurnFirst: true,
       dollars: 499,
       oppoent_dollars: 499,
       pot_dollars: 0,
-      cards: [{faceUp: false} as CreateCardDto],
-      oppoent_cards: [{faceUp: false, suit: 1, number: 2} as CreateCardDto],
-      table_cards: [{faceUp: false, suit: 1, number: 2} as CreateCardDto],
+      cards: [] as unknown as [CreateCardDto],
+      oppoent_cards: [] as unknown as [CreateCardDto],
+      table_cards: [] as unknown as [CreateCardDto],
       oppoent_action: "",
       deal: false,
       fold: false,
@@ -38,6 +39,7 @@ export class GameStateService {
         return await this.gameStateModel.findOneAndReplace(
           {},
           {
+            'machinePosition': newState.machinePosition,
             'yourTurnFirst': newState.yourTurnFirst,
             'dollars': newState.dollars,
             'oppoent_dollars': newState.oppoent_dollars,

@@ -1,14 +1,12 @@
 import { Body, Controller, Get, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-import { reqBet } from './model/req-bet';
-import { ResPlayerViewData } from './model/res-player-view-data';
-import { ViewGeneratorService } from './view-generator/view-generator.service';
+import { reqBet } from './view/schema/req-bet';
+import { ResPlayerViewData } from './view/schema/res-player-view-data';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly viewGeneratorService: ViewGeneratorService
   ) {}
 
   @Get("state")

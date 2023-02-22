@@ -1,4 +1,5 @@
 export class CreateGameStateDto {
+    machinePosition: number;
     yourTurnFirst:boolean;
     dollars: number;
     oppoent_dollars: number;
