@@ -6,8 +6,8 @@ export type GameStateDocument = HydratedDocument<GameState>;
 
 @Schema()
 export class GameState {
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'id' })
-  // id: Owner;
+
+  playersTurn: boolean;
 
   @Prop()
   id: number;
@@ -25,7 +25,10 @@ export class GameState {
   oppoent_dollars: number;
   
   @Prop()
-  pot_dollars: number;
+  pot_player: number;
+  
+  @Prop()
+  pot_opponent: number;
   
   @Prop({ type: [CardSchema] })
   cards: [Card];

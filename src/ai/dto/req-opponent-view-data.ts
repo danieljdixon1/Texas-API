@@ -5,7 +5,8 @@ export interface ReqOpponentViewData{
 
     dollars: number;
     oppoent_dollars: number;
-    pot_dollars: number;
+    pot_player: number;
+    pot_opponent: number;
     
     cards: Card[];
     oppoent_cards: Card[];

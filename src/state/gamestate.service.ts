@@ -9,15 +9,16 @@ export class GameStateService {
 
     initialState: CreateGameStateDto = {
       machinePosition: 0,
-      yourTurnFirst: true,
+      yourTurnFirst: false,
       dollars: 499,
       oppoent_dollars: 499,
-      pot_dollars: 0,
+      pot_player: 0,
+      pot_opponent: 0,
       cards: [] as unknown as [CreateCardDto],
       oppoent_cards: [] as unknown as [CreateCardDto],
       table_cards: [] as unknown as [CreateCardDto],
       oppoent_action: "",
-      deal: false,
+      deal: true,
       fold: false,
       call: false,
       bet: false,
@@ -29,10 +30,15 @@ export class GameStateService {
 
       async getOnlyGameState(): Promise<GameState>{
         const recordCount = await this.gameStateModel.count().exec();
+        let result;
         if (recordCount==0){
           await this.restart();
+          result = this.gameStateModel.findOne().exec()
+          result.oppoent_action="game was restarted"
+        }else{
+          result = this.gameStateModel.findOne().exec()
         }
-        return this.gameStateModel.findOne().exec();
+        return result;
       }
 
       async setOnlyGameState(newState: GameState): Promise<GameState>{
@@ -43,7 +49,8 @@ export class GameStateService {
             'yourTurnFirst': newState.yourTurnFirst,
             'dollars': newState.dollars,
             'oppoent_dollars': newState.oppoent_dollars,
-            'pot_dollars': newState.pot_dollars,
+            'pot_player': newState.pot_player,
+            'pot_opponent': newState.pot_opponent,
             'cards': newState.cards,
             'oppoent_cards': newState.oppoent_cards,
             'table_cards': newState.table_cards,

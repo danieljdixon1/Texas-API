@@ -7,19 +7,36 @@ export class GamePlayPhaseService {
     constructor (private readonly machineService:MachineService){}
 
     deal(state: GameState): GameState{
-        this.machineService.runUntilNextPlayerPrompt(state);
-        return state;
+        const newState: GameState = this.machineService.runUntilNextPlayerPrompt(state);
+        return newState;
     }
     fold(state: GameState): GameState{
-        this.machineService.runUntilNextPlayerPrompt(state);
+        state.machinePosition=0;
+        state.pot_opponent+=state.pot_player;
+        state.pot_player=0;
+        state.playersTurn=true;
+        state.deal=true
+        state.bet=false;
+        state.call=false;
+        state.fold=false;
+        // state = this.machineService.runUntilNextPlayerPrompt(state);
         return state;
     }
     call(state: GameState): GameState{
-        this.machineService.runUntilNextPlayerPrompt(state);
+        const amount = state.pot_opponent-state.pot_player;
+        if (state.dollars>=amount){
+            state.dollars -= amount;
+            state.pot_player += amount;
+        }
+        state = this.machineService.runUntilNextPlayerPrompt(state);
         return state;
     }
     bet(state: GameState, amount: number): GameState{
-        this.machineService.runUntilNextPlayerPrompt(state);
+        if (state.dollars>=amount){
+            state.dollars -= amount;
+            state.pot_player += amount;
+        }
+        state = this.machineService.runUntilNextPlayerPrompt(state);
         return state;
     }
 }

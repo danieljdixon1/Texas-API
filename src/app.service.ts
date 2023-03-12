@@ -41,6 +41,7 @@ export class AppService {
     }
     async restart(): Promise<ResPlayerViewData> {
       const newState = await this.gameStateService.restart();
+      await this.gameStateService.setOnlyGameState(newState);
       return this.viewGeneratorService.getPlayerView(newState);
     }
 }

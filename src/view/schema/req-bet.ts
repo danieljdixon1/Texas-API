@@ -1,3 +1,3 @@
 export interface reqBet{
-    amount: number;
+    dollars: number;
 }

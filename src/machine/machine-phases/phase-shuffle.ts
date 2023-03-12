@@ -1,11 +1,9 @@
-import { DeckService } from "src/deck/deck.service";
-import { Card } from "src/state/schemas/card.schema";
 import { GameState } from "src/state/schemas/gamestate.schema";
 import { machinePhases } from "../interfaces/machine-phases";
 
 export class phaseShuffle implements machinePhases{
 
-    runPhase(state: GameState): boolean {
+    runPhase(state: GameState): GameState {
         state.cards.pop();
         state.cards.pop();
         state.oppoent_cards.pop();
@@ -15,7 +13,12 @@ export class phaseShuffle implements machinePhases{
         state.table_cards.pop();
         state.table_cards.pop();
         state.table_cards.pop();
-        state.machinePosition=0;
-        return true;
+        state.yourTurnFirst=!state.yourTurnFirst;
+        state.machinePosition+=1;
+        state.dollars+=state.pot_player;
+        state.oppoent_dollars+=state.pot_opponent;
+        state.pot_player=0;
+        state.pot_opponent=0;
+        return state;
     }
 }

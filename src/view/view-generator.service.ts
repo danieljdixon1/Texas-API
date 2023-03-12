@@ -10,7 +10,9 @@ export class ViewGeneratorService {
         
             dollars: state.dollars,
             oppoent_dollars: state.oppoent_dollars,
-            pot_dollars: state.pot_dollars,
+
+            pot_player: state.pot_player,
+            pot_opponent: state.pot_opponent,
             
             cards: state.cards,
             oppoent_cards: state.oppoent_cards,
@@ -31,7 +33,8 @@ export class ViewGeneratorService {
         
             dollars: state.dollars,
             oppoent_dollars: state.oppoent_dollars,
-            pot_dollars: state.pot_dollars,
+            pot_player: state.pot_player,
+            pot_opponent: state.pot_opponent,
             
             cards: state.cards,
             oppoent_cards: state.oppoent_cards,

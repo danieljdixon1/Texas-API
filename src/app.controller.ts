@@ -27,7 +27,7 @@ export class AppController {
   }
   @Post("bet")
   async bet(@Res() res, @Body() req: reqBet): Promise<ResPlayerViewData> {
-    return res.status(HttpStatus.OK).json(await this.appService.bet(req.amount));
+    return res.status(HttpStatus.OK).json(await this.appService.bet(req.dollars));
   }
   @Post("restart")
   async restart(@Res() res): Promise<ResPlayerViewData> {

@@ -6,7 +6,7 @@ import { CardNumber, CardSuit } from 'src/view/schema/Card';
 @Injectable()
 export class DeckService {
     
-    drawCardFromDeck(state: GameState): Card{
+    drawCardFromDeck(state: GameState, faceUp: boolean): Card{
         const cards: Card[] = this.allCards();
         
         const cardsNotInDeck: Card[] = [];
@@ -32,6 +32,7 @@ export class DeckService {
         });
 
         const shuffledCards = cards.sort((a, b) => 0.5 - Math.random());
+        shuffledCards[0].faceUp=faceUp;
         return shuffledCards[0];
     }
 
