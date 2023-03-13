@@ -1,4 +1,4 @@
-FROM node:18.14.0-alpine
+FROM amd64/node:18.14.0-alpine
 # RUN apk update
 # RUN apk add bash
 
